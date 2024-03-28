@@ -22,7 +22,19 @@ describe("LoginForm", () => {
     expect(confirmPassword).toHaveValue("");
   });
 
+  it("should have the correct types for inputs", () => {
+    const email = screen.queryByPlaceholderText("Email");
+    const password = screen.queryByPlaceholderText("Password");
+    const confirmPassword = screen.queryByPlaceholderText("Confirm password");
+
+    expect(email).toHaveAttribute("type", "email");
+    expect(password).toHaveAttribute("type", "password");
+    expect(confirmPassword).toHaveAttribute("type", "password");
+  });
+
   it("should prevent submit function from being called if invalid", () => {});
+
+  it("should enable submit button if inputs are all valid", () => {});
 
   it("should display error message for invalid inputs", () => {});
 });
