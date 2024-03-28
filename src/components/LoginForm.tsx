@@ -1,4 +1,9 @@
 import { useState } from "react";
+import {
+  confirmPasswordValidator,
+  emailValidator,
+  passwordValidator,
+} from "../utils/validators";
 
 interface onSubmitProps {
   email: string;
@@ -24,60 +29,34 @@ export function LoginForm(props: LoginFormProps) {
         data-testid="login-form"
         onSubmit={(e) => {
           e.preventDefault();
-          const emailRegExp =
-            /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-          if (!email) {
-            setEmailError("The email is required.");
-          } else if (!emailRegExp.test(email)) {
-            setEmailError("Email format is incorrect.");
-          } else {
-            setEmailError("");
+          const message = emailValidator(email);
+          setEmailError(message);
+
+          const pwError = passwordValidator(password);
+          setPasswordError(pwError);
+
+          const cpwError = confirmPasswordValidator(password, confirmPassword);
+          setConfirmPasswordError(cpwError);
+
+          if (!message) {
+            onSubmit({
+              email,
+              password,
+            });
           }
-
-          const passwordRegExp = /^(?=.*[A-Z])(?=.*\d)(?=.*\W).+$/;
-
-          if (!password) {
-            setPasswordError("The password is required.");
-          } else if (!passwordRegExp.test(password)) {
-            setPasswordError(
-              `must have at least one capital letter, one numeric character, and one special character.`
-            );
-          } else {
-            setPasswordError("");
-          }
-
-          if (!confirmPassword) {
-            setConfirmPasswordError("The confirm password is required.");
-          } else if (password !== confirmPassword) {
-            setConfirmPasswordError("The password is inconsistent.");
-          } else {
-            setConfirmPasswordError("");
-          }
-
-          onSubmit({
-            email,
-            password,
-          });
         }}
       >
         <input
-          type="email"
+          type="text"
           placeholder="Email"
           value={email}
           onChange={(e) => {
             const email = e.target.value;
             setEmail(e.target.value);
-            const emailRegExp =
-              /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-            if (!email) {
-              setEmailError("The email is required.");
-            } else if (!emailRegExp.test(email)) {
-              setEmailError("Email format is incorrect.");
-            } else {
-              setEmailError("");
-            }
+            const message = emailValidator(email);
+            setEmailError(message);
           }}
         ></input>
         <span> {emailError}</span>
@@ -88,17 +67,9 @@ export function LoginForm(props: LoginFormProps) {
           onChange={(e) => {
             const password = e.target.value;
             setPassword(password);
-            const passwordRegExp = /^(?=.*[A-Z])(?=.*\d)(?=.*\W).+$/;
 
-            if (!password) {
-              setPasswordError("The password is required.");
-            } else if (!passwordRegExp.test(password)) {
-              setPasswordError(
-                `must have at least one capital letter, one numeric character, and one special character.`
-              );
-            } else {
-              setPasswordError("");
-            }
+            const pwError = passwordValidator(password);
+            setPasswordError(pwError);
           }}
         ></input>
         <span> {passwordError}</span>
@@ -107,15 +78,13 @@ export function LoginForm(props: LoginFormProps) {
           placeholder="Confirm password"
           value={confirmPassword}
           onChange={(e) => {
-            setConfirmPassword(e.target.value);
             const confirmPassword = e.target.value;
-            if (!confirmPassword) {
-              setConfirmPasswordError("The confirm password is required.");
-            } else if (password !== confirmPassword) {
-              setConfirmPasswordError("The password is inconsistent.");
-            } else {
-              setConfirmPasswordError("");
-            }
+            setConfirmPassword(e.target.value);
+            const cpwError = confirmPasswordValidator(
+              password,
+              confirmPassword
+            );
+            setConfirmPasswordError(cpwError);
           }}
         ></input>
         <span>{confirmPasswordError}</span>
