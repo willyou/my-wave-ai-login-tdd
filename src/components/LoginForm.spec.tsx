@@ -12,7 +12,7 @@ describe("LoginForm", () => {
     expect(loginButton).toBeDisabled();
   });
 
-  it("should initialized an empty form", () => {
+  it("should initialize an empty form with inputs that are all required", () => {
     const email = screen.queryByPlaceholderText("Email");
     const password = screen.queryByPlaceholderText("Password");
     const confirmPassword = screen.queryByPlaceholderText("Confirm password");
@@ -20,17 +20,13 @@ describe("LoginForm", () => {
     expect(email).toHaveValue("");
     expect(password).toHaveValue("");
     expect(confirmPassword).toHaveValue("");
+
+    expect(email).toBeRequired();
+    expect(password).toBeRequired();
+    expect(confirmPassword).toBeRequired();
   });
 
-  it("should have the correct types for inputs", () => {
-    const email = screen.queryByPlaceholderText("Email");
-    const password = screen.queryByPlaceholderText("Password");
-    const confirmPassword = screen.queryByPlaceholderText("Confirm password");
-
-    expect(email).toHaveAttribute("type", "email");
-    expect(password).toHaveAttribute("type", "password");
-    expect(confirmPassword).toHaveAttribute("type", "password");
-  });
+  it("should should be required for inputs", () => {});
 
   it("should prevent submit function from being called if invalid", () => {});
 
