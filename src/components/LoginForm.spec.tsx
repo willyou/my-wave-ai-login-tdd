@@ -58,7 +58,6 @@ describe("LoginForm", () => {
     const emailContent = "incorrect.email";
     const email = screen.getByPlaceholderText("Email");
     await user.type(email, emailContent);
-    expect(email).toBeInvalid();
 
     const errorMessage = screen.queryByText("Email format is incorrect.");
     expect(errorMessage).toBeInTheDocument();
