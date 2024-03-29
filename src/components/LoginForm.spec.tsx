@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { LoginForm } from "./LoginForm";
@@ -58,7 +58,7 @@ describe("LoginForm", () => {
     const emailContent = "incorrect.email";
     const email = screen.getByPlaceholderText("Email");
     await user.type(email, emailContent);
-
+    fireEvent.blur(email);
     const errorMessage = screen.queryByText("Email format is incorrect.");
     expect(errorMessage).toBeInTheDocument();
   });
@@ -69,7 +69,7 @@ describe("LoginForm", () => {
     const password = screen.getByPlaceholderText("Password");
     expect(password).toBeInTheDocument();
     await user.type(password, pwContent);
-
+    fireEvent.blur(password);
     const errorMessage = screen.queryByText(message);
     expect(errorMessage).toBeInTheDocument();
   });
@@ -79,16 +79,19 @@ describe("LoginForm", () => {
     const pwContent = "password";
     const password = screen.getByPlaceholderText("Password");
     await user.type(password, pwContent);
+    fireEvent.blur(password);
 
     const cpwContent = "password!!";
     const confirmPassword = screen.getByPlaceholderText("Confirm password");
+
     await user.type(confirmPassword, cpwContent);
+    fireEvent.blur(confirmPassword);
 
     const errorMessage = screen.queryByText(message);
     expect(errorMessage).toBeInTheDocument();
   });
 
-  it("should passing email and password.", async () => {
+  it("should passing email and password if form is valid.", async () => {
     const inputs = {
       email: "hi@tw.com",
       password: "@@Zchu777utn",
@@ -96,13 +99,29 @@ describe("LoginForm", () => {
 
     const username = screen.getByPlaceholderText("Email");
     const password = screen.getByPlaceholderText("Password");
+    const confirmPassword = screen.getByPlaceholderText("Confirm password");
 
     await user.type(username, inputs.email);
     await user.type(password, inputs.password);
+    await user.type(confirmPassword, inputs.password);
 
     const loginButton = screen.getByRole("button", { name: "Submit" });
     await user.click(loginButton);
 
     expect(onSubmit).toHaveBeenCalledWith(inputs);
+  });
+
+  it("should validate email dynamic when email is touched", async () => {
+    const emailMessage = "Email format is incorrect.";
+    const email = screen.getByPlaceholderText("Email");
+    await userEvent.type(email, "wrong format email");
+    fireEvent.blur(email);
+
+    const emailErrorMessage = screen.queryByText(emailMessage);
+    expect(emailErrorMessage).toBeInTheDocument();
+
+    await userEvent.clear(email);
+    const errorMessage = screen.queryByText("The email is required.");
+    expect(errorMessage).toBeInTheDocument();
   });
 });
