@@ -1,9 +1,9 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { LoginForm } from "./LoginForm";
+import { SignUpForm } from "./SignUpForm";
 
-describe("LoginForm", () => {
+describe("SignUpForm", () => {
   const user = userEvent.setup();
   const onSubmit = vi.fn();
 
@@ -21,7 +21,7 @@ describe("LoginForm", () => {
   };
 
   beforeEach(() => {
-    render(<LoginForm onSubmit={onSubmit} />);
+    render(<SignUpForm onSubmit={onSubmit} />);
   });
 
   it("should ensure input values are required.", async () => {

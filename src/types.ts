@@ -2,11 +2,13 @@ export interface SignUpFormData {
   email: string;
   password: string;
   confirmPassword: string;
+  focusOn: string;
 }
 
 export interface ValidateFormProps {
   form: SignUpFormData;
-  field: string;
+  fields: string[];
+  forceTouched?: boolean;
   errorsState: SignUpFormDataError;
 }
 
