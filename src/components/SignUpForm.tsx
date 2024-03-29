@@ -59,34 +59,50 @@ export function SignUpForm(props: SignUpFormProps) {
           }
         }}
       >
-        <input
-          name="email"
-          type="text"
-          placeholder="Email"
-          value={formData.email}
-          onChange={onUpdateField}
-          onBlur={onBlurField}
-        ></input>
-        <span> {formError.email.message}</span>
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={onUpdateField}
-          onBlur={onBlurField}
-        ></input>
-        <span> {formError.password.message}</span>
-        <input
-          name="confirmPassword"
-          type="password"
-          placeholder="Confirm password"
-          value={formData.confirmPassword}
-          onChange={onUpdateField}
-          onBlur={onBlurField}
-        ></input>
-        <span>{formError.confirmPassword.message}</span>
-        <button type="submit">Submit</button>
+        <div>
+          <input
+            className="input"
+            name="email"
+            type="text"
+            placeholder="Email"
+            value={formData.email}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+          ></input>
+        </div>
+        <div>
+          <input
+            className="input"
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+          ></input>
+        </div>
+        <div>
+          <input
+            className="input"
+            name="confirmPassword"
+            type="password"
+            placeholder="Confirm password"
+            value={formData.confirmPassword}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+          ></input>
+        </div>
+
+        <div>
+          <button className="btn" type="submit">
+            Submit
+          </button>
+        </div>
+        <div className="error-wrap">
+          <div className="error"> {formError.email.message}</div>
+          <div className="error"> {formError.password.message}</div>
+          <div className="error">{formError.confirmPassword.message}</div>
+        </div>
       </form>
     </div>
   );

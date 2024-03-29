@@ -7,8 +7,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   return (
-    <>
-      <div data-testid="login-app">
+    <div className="flex-container">
+      <div className="company-logo" data-testid="login-app">
         <a href="https://mywave.ai" target="_blank">
           <img
             src={
@@ -30,7 +30,7 @@ function App() {
       ) : (
         <span>Welcome to MyWAVE.AI</span>
       )}
-    </>
+    </div>
   );
 }
 
