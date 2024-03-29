@@ -1,8 +1,4 @@
-import {
-  SignUpFormData,
-  SignUpFormDataError,
-  ValidateFormProps,
-} from "../types";
+import { SignUpFormDataError, ValidateFormProps } from "../types";
 
 export const emailValidator = (email: string): string => {
   const emailRegExp =
@@ -43,33 +39,37 @@ export const validateForm = (props: ValidateFormProps) => {
   let isValid = true;
 
   // Create a deep copy of the errors
-  const { form, field, errorsState } = props;
+  const { form, fields, forceTouched, errorsState } = props;
   const nextErrors: SignUpFormDataError = JSON.parse(
     JSON.stringify(errorsState)
   );
 
-  // Force validate all the fields
-  // if (forceTouchErrors) {
-  //   nextErrors = touchErrors(errors);
-  // }
+  if (forceTouched) {
+    for (const key in nextErrors) {
+      nextErrors[key as keyof SignUpFormDataError].touched = true;
+    }
+  }
 
   const { email, password, confirmPassword } = form;
 
-  if (nextErrors.email.touched && field === "email") {
+  if (nextErrors.email.touched && fields.includes("email")) {
     const emailMessage = emailValidator(email);
     nextErrors.email.error = !!emailMessage;
     nextErrors.email.message = emailMessage;
     if (!!emailMessage) isValid = false;
   }
 
-  if (nextErrors.password.touched && (field ? field === "password" : true)) {
+  if (nextErrors.password.touched && fields.includes("password")) {
     const passwordMessage = passwordValidator(password);
     nextErrors.password.error = !!passwordMessage;
     nextErrors.password.message = passwordMessage;
     if (!!passwordMessage) isValid = false;
   }
 
-  if (nextErrors.confirmPassword.touched && field === "confirmPassword") {
+  if (
+    nextErrors.confirmPassword.touched &&
+    fields.includes("confirmPassword")
+  ) {
     const confirmPasswordMessage = confirmPasswordValidator(
       password,
       confirmPassword

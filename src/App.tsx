@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import "./App.css";
-import { LoginForm } from "./components/LoginForm";
+import { SignUpForm } from "./components/SignUpForm";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -20,7 +20,7 @@ function App() {
         </a>
       </div>
       {!isLoggedIn ? (
-        <LoginForm
+        <SignUpForm
           onSubmit={(inputs: any) => {
             Promise.resolve().then(() => {
               setIsLoggedIn(true);
