@@ -30,7 +30,7 @@ export function useFormValidator(formData: SignUpFormData) {
   const onBlurField = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.target;
 
-    if (formError.email.touched) return;
+    if (formError[name as keyof SignUpFormDataError].touched) return;
 
     const updatedErrors = {
       ...formError,
