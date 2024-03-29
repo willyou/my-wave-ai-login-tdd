@@ -6,24 +6,37 @@ import { LoginForm } from "./LoginForm";
 describe("LoginForm", () => {
   const user = userEvent.setup();
   const onSubmit = vi.fn();
+
+  const requiredMessage = {
+    email: "The email is required.",
+    password: "The password is required.",
+    confirmPassword: "The confirm password is required.",
+  };
+
+  const incorrectMessage = {
+    email: "Email format is incorrect.",
+    password:
+      "must have at least one capital letter, one numeric character, and one special character.",
+    confirmPassword: "The password is inconsistent.",
+  };
+
   beforeEach(() => {
     render(<LoginForm onSubmit={onSubmit} />);
   });
 
   it("should ensure input values are required.", async () => {
-    const emailMessage = "The email is required.";
-    const passwordMessage = "The password is required.";
-    const confirmMessage = "The confirm password is required.";
     const loginButton = screen.getByRole("button", { name: "Submit" });
     await user.click(loginButton);
 
-    const emailError = screen.queryByText(emailMessage);
+    const emailError = screen.queryByText(requiredMessage.email);
     expect(emailError).toBeInTheDocument();
 
-    const passwordError = screen.queryByText(passwordMessage);
+    const passwordError = screen.queryByText(requiredMessage.password);
     expect(passwordError).toBeInTheDocument();
 
-    const confirmPasswordError = screen.queryByText(confirmMessage);
+    const confirmPasswordError = screen.queryByText(
+      requiredMessage.confirmPassword
+    );
     expect(confirmPasswordError).toBeInTheDocument();
   });
 
@@ -59,23 +72,21 @@ describe("LoginForm", () => {
     const email = screen.getByPlaceholderText("Email");
     await user.type(email, emailContent);
     fireEvent.blur(email);
-    const errorMessage = screen.queryByText("Email format is incorrect.");
+    const errorMessage = screen.queryByText(incorrectMessage.email);
     expect(errorMessage).toBeInTheDocument();
   });
 
   it("should display error message if password format is incorrect", async () => {
-    const message = `must have at least one capital letter, one numeric character, and one special character.`;
     const pwContent = "password";
     const password = screen.getByPlaceholderText("Password");
     expect(password).toBeInTheDocument();
     await user.type(password, pwContent);
     fireEvent.blur(password);
-    const errorMessage = screen.queryByText(message);
+    const errorMessage = screen.queryByText(incorrectMessage.password);
     expect(errorMessage).toBeInTheDocument();
   });
 
   it("should display error message if password is not equal to confirm password", async () => {
-    const message = "The password is inconsistent.";
     const pwContent = "password";
     const password = screen.getByPlaceholderText("Password");
     await user.type(password, pwContent);
@@ -87,7 +98,7 @@ describe("LoginForm", () => {
     await user.type(confirmPassword, cpwContent);
     fireEvent.blur(confirmPassword);
 
-    const errorMessage = screen.queryByText(message);
+    const errorMessage = screen.queryByText(incorrectMessage.confirmPassword);
     expect(errorMessage).toBeInTheDocument();
   });
 
@@ -112,16 +123,15 @@ describe("LoginForm", () => {
   });
 
   it("should validate email dynamic when email is touched", async () => {
-    const emailMessage = "Email format is incorrect.";
     const email = screen.getByPlaceholderText("Email");
     await userEvent.type(email, "wrong format email");
     fireEvent.blur(email);
 
-    const emailErrorMessage = screen.queryByText(emailMessage);
+    const emailErrorMessage = screen.queryByText(incorrectMessage.email);
     expect(emailErrorMessage).toBeInTheDocument();
 
     await userEvent.clear(email);
-    const errorMessage = screen.queryByText("The email is required.");
+    const errorMessage = screen.queryByText(requiredMessage.email);
     expect(errorMessage).toBeInTheDocument();
   });
 });

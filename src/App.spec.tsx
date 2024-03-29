@@ -28,9 +28,11 @@ describe("App", () => {
 
     const username = screen.getByPlaceholderText("Email");
     const password = screen.getByPlaceholderText("Password");
+    const confirmPassword = screen.getByPlaceholderText("Confirm password");
 
     await user.type(username, inputs.email);
     await user.type(password, inputs.password);
+    await user.type(confirmPassword, inputs.password);
 
     const loginButton = screen.getByRole("button", { name: "Submit" });
     await user.click(loginButton);
