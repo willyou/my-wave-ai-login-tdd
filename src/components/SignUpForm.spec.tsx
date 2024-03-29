@@ -134,4 +134,29 @@ describe("SignUpForm", () => {
     const errorMessage = screen.queryByText(requiredMessage.email);
     expect(errorMessage).toBeInTheDocument();
   });
+
+  it("should validate input when it is touched", async () => {
+    const email = screen.getByPlaceholderText("Email");
+    await userEvent.click(email);
+    fireEvent.blur(email);
+
+    const emailError = screen.queryByText(requiredMessage.email);
+    expect(emailError).toBeInTheDocument();
+
+    const password = screen.getByPlaceholderText("Password");
+    await userEvent.click(password);
+    fireEvent.blur(password);
+
+    const passwordError = screen.queryByText(requiredMessage.password);
+    expect(passwordError).toBeInTheDocument();
+
+    const confirmPassword = screen.getByPlaceholderText("Confirm password");
+    await userEvent.click(confirmPassword);
+    fireEvent.blur(confirmPassword);
+
+    const confirmPasswordError = screen.queryByText(
+      requiredMessage.confirmPassword
+    );
+    expect(confirmPasswordError).toBeInTheDocument();
+  });
 });
