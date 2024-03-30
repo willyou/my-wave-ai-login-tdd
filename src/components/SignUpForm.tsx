@@ -96,13 +96,13 @@ export function SignUpForm(props: SignUpFormProps) {
 
         <div>
           <button className="btn" type="submit">
-            {loading && (
+            {loading ? (
               <>
                 <i data-testid="loading" className="fa fa-spinner fa-spin"></i>
-                loading
               </>
+            ) : (
+              "Submit"
             )}
-            Submit
           </button>
         </div>
         <div className="error-wrap">
