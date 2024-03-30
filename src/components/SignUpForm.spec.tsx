@@ -21,7 +21,7 @@ describe("SignUpForm", () => {
   };
 
   beforeEach(() => {
-    render(<SignUpForm onSubmit={onSubmit} />);
+    render(<SignUpForm onSubmit={onSubmit} loading={false} />);
   });
 
   it("should ensure input values are required.", async () => {

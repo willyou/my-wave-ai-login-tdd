@@ -1,4 +1,4 @@
-import { screen, render } from "@testing-library/react";
+import { screen, render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import App from "./App";
@@ -37,10 +37,27 @@ describe("App", () => {
     const loginButton = screen.getByRole("button", { name: "Submit" });
     await user.click(loginButton);
 
-    expect(loginForm).not.toBeInTheDocument();
+    await waitFor(() => expect(loginForm).not.toBeInTheDocument());
 
     const success = `Welcome to MyWAVE.AI`;
     const successMessage = screen.queryByText(success);
+
     expect(successMessage).toBeInTheDocument();
+  });
+
+  it("should show loading when the form is submited", async () => {
+    const email = screen.getByPlaceholderText("Email");
+    const pasword = screen.getByPlaceholderText("Password");
+    const confirmPasword = screen.getByPlaceholderText("Confirm password");
+
+    await userEvent.type(email, "hi@mywave.com");
+    await userEvent.type(pasword, "@@Ch8827");
+    await userEvent.type(confirmPasword, "@@Ch8827");
+
+    const submitBtn = screen.queryByText("Submit");
+    if (submitBtn) await userEvent.click(submitBtn);
+
+    const loading = screen.queryByTestId("loading");
+    expect(loading).toBeVisible();
   });
 });

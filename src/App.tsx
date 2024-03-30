@@ -2,9 +2,11 @@ import { useState } from "react";
 
 import "./App.css";
 import { SignUpForm } from "./components/SignUpForm";
+import { LoginAPI } from "./apis/LoginAPI";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   return (
     <div className="flex-container">
@@ -21,11 +23,15 @@ function App() {
       </div>
       {!isLoggedIn ? (
         <SignUpForm
-          onSubmit={(inputs: any) => {
-            Promise.resolve().then(() => {
+          onSubmit={async (inputs: any) => {
+            setLoading(true);
+            const data = await LoginAPI.login();
+            if (data.success) {
               setIsLoggedIn(true);
-            });
+            }
+            setLoading(false);
           }}
+          loading={loading}
         />
       ) : (
         <span>Welcome to MyWAVE.AI</span>

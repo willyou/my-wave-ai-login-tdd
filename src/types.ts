@@ -23,3 +23,8 @@ export interface ErrorState {
   error: boolean;
   message: string;
 }
+
+export type SignUpResponse = {
+  success: boolean;
+  message: string;
+};

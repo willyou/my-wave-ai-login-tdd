@@ -9,11 +9,12 @@ interface onSubmitProps {
 }
 
 interface SignUpFormProps {
+  loading: boolean;
   onSubmit: (props: onSubmitProps) => void;
 }
 
 export function SignUpForm(props: SignUpFormProps) {
-  const { onSubmit } = props;
+  const { loading, onSubmit } = props;
   const [formData, setFormData] = useState<SignUpFormData>({
     email: "",
     password: "",
@@ -95,6 +96,12 @@ export function SignUpForm(props: SignUpFormProps) {
 
         <div>
           <button className="btn" type="submit">
+            {loading && (
+              <>
+                <i data-testid="loading" className="fa fa-spinner fa-spin"></i>
+                loading
+              </>
+            )}
             Submit
           </button>
         </div>
