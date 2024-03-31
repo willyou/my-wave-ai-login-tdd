@@ -1,5 +1,7 @@
+import { ChangeEvent, FocusEvent } from "react";
 import { useForm } from "../hooks/useForm";
 import { AuthData } from "../types";
+import { FormInput } from "./FormInput";
 
 interface SignUpFormProps {
   loading: boolean;
@@ -35,39 +37,30 @@ export function SignUpForm(props: SignUpFormProps) {
           }
         }}
       >
-        <div>
-          <input
-            className="input"
-            name="email"
-            type="text"
-            placeholder="Email"
-            value={formData.email}
-            onChange={onUpdateField}
-            onBlur={onBlurField}
-          ></input>
-        </div>
-        <div>
-          <input
-            className="input"
-            name="password"
-            type="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={onUpdateField}
-            onBlur={onBlurField}
-          ></input>
-        </div>
-        <div>
-          <input
-            className="input"
-            name="confirmPassword"
-            type="password"
-            placeholder="Confirm password"
-            value={formData.confirmPassword}
-            onChange={onUpdateField}
-            onBlur={onBlurField}
-          ></input>
-        </div>
+        <FormInput
+          name={"email"}
+          type={"text"}
+          placeholder={"Email"}
+          value={formData.email}
+          onChange={onUpdateField}
+          onBlur={onBlurField}
+        />
+        <FormInput
+          name={"password"}
+          type={"password"}
+          placeholder={"Password"}
+          value={formData.password}
+          onChange={onUpdateField}
+          onBlur={onBlurField}
+        />
+        <FormInput
+          name={"confirmPassword"}
+          type={"password"}
+          placeholder={"Confirm password"}
+          value={formData.confirmPassword}
+          onChange={onUpdateField}
+          onBlur={onBlurField}
+        />
 
         <div>
           <button className="btn" type="submit">

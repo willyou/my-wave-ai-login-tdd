@@ -30,7 +30,7 @@ export function useForm() {
     setFormData(nextFormState);
   };
 
-  const onBlurField = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onBlurField = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name } = e.target;
     if (touched[name as keyof TouchedState]) return;
     setTouched({ ...touched, [name]: true });
