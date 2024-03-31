@@ -1,7 +1,7 @@
-import { SignUpResponse } from "../types";
+import { AuthData, SignUpResponse } from "../types";
 
 export const LoginAPI = {
-  login: () => {
+  login: (authData: AuthData) => {
     const promise: Promise<SignUpResponse> = new Promise((resolve, _) => {
       setTimeout(() => {
         resolve({

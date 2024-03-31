@@ -3,6 +3,7 @@ import { useState } from "react";
 import "./App.css";
 import { SignUpForm } from "./components/SignUpForm";
 import { LoginAPI } from "./apis/LoginAPI";
+import { AuthData } from "./types";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -23,9 +24,9 @@ function App() {
       </div>
       {!isLoggedIn ? (
         <SignUpForm
-          onSubmit={async (inputs: any) => {
+          onSubmit={async (inputs: AuthData) => {
             setLoading(true);
-            const data = await LoginAPI.login();
+            const data = await LoginAPI.login(inputs);
             if (data.success) {
               setIsLoggedIn(true);
             }

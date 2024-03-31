@@ -1,23 +1,22 @@
-import { useState } from "react";
-import { validateForm } from "../utils/validators";
-import { SignUpFormData } from "../types";
-import { useFormValidator } from "../hooks/useFormValidator";
-
-interface onSubmitProps {
-  email: string;
-  password: string;
-}
+import { useForm } from "../hooks/useForm";
+import { AuthData } from "../types";
 
 interface SignUpFormProps {
   loading: boolean;
-  onSubmit: (props: onSubmitProps) => void;
+  onSubmit: (props: AuthData) => void;
 }
 
 export function SignUpForm(props: SignUpFormProps) {
   const { loading, onSubmit } = props;
 
-  const { formData, formError, onBlurField, onUpdateField } =
-    useFormValidator();
+  const {
+    formData,
+    formError,
+    touched,
+    onBlurField,
+    onUpdateField,
+    validateAll,
+  } = useForm();
 
   return (
     <div>
@@ -26,20 +25,13 @@ export function SignUpForm(props: SignUpFormProps) {
         onSubmit={(e) => {
           e.preventDefault();
 
-          const { isValid, errors } = validateForm({
-            form: formData,
-            fields: ["email", "password", "confirmPassword"],
-            errorsState: formError,
-            forceTouched: true,
-          });
+          const { isValid } = validateAll();
 
           if (isValid) {
             onSubmit({
               email: formData.email,
               password: formData.password,
             });
-          } else {
-            // setFormError(errors);
           }
         }}
       >
@@ -89,9 +81,17 @@ export function SignUpForm(props: SignUpFormProps) {
           </button>
         </div>
         <div className="error-wrap">
-          <div className="error"> {formError.email.message}</div>
-          <div className="error"> {formError.password.message}</div>
-          <div className="error">{formError.confirmPassword.message}</div>
+          {touched.email && (
+            <div className="error"> {formError.email.message}</div>
+          )}
+
+          {touched.password && (
+            <div className="error"> {formError.password.message}</div>
+          )}
+
+          {touched.confirmPassword && (
+            <div className="error"> {formError.confirmPassword.message}</div>
+          )}
         </div>
       </form>
     </div>
