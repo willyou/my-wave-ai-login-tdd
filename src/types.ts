@@ -2,14 +2,15 @@ export interface SignUpFormData {
   email: string;
   password: string;
   confirmPassword: string;
-  focusOn: string;
+}
+
+export interface AuthData {
+  email: string;
+  password: string;
 }
 
 export interface ValidateFormProps {
   form: SignUpFormData;
-  fields: string[];
-  forceTouched?: boolean;
-  errorsState: SignUpFormDataError;
 }
 
 export interface SignUpFormDataError {
@@ -19,7 +20,6 @@ export interface SignUpFormDataError {
 }
 
 export interface ErrorState {
-  touched: boolean;
   error: boolean;
   message: string;
 }
@@ -28,3 +28,9 @@ export type SignUpResponse = {
   success: boolean;
   message: string;
 };
+
+export interface TouchedState {
+  email: boolean;
+  password: boolean;
+  confirmPassword: boolean;
+}

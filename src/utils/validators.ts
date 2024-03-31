@@ -36,48 +36,36 @@ export const confirmPasswordValidator = (
 };
 
 export const validateForm = (props: ValidateFormProps) => {
-  let isValid = true;
-
-  // Create a deep copy of the errors
-  const { form, fields, forceTouched, errorsState } = props;
-  const nextErrors: SignUpFormDataError = JSON.parse(
-    JSON.stringify(errorsState)
-  );
-
-  if (forceTouched) {
-    for (const key in nextErrors) {
-      nextErrors[key as keyof SignUpFormDataError].touched = true;
-    }
-  }
+  const { form } = props;
 
   const { email, password, confirmPassword } = form;
 
-  if (nextErrors.email.touched && fields.includes("email")) {
-    const emailMessage = emailValidator(email);
-    nextErrors.email.error = !!emailMessage;
-    nextErrors.email.message = emailMessage;
-    if (!!emailMessage) isValid = false;
-  }
+  const emailMessage = emailValidator(email);
+  const passwordMessage = passwordValidator(password);
+  const confirmPasswordMessage = confirmPasswordValidator(
+    password,
+    confirmPassword
+  );
 
-  if (nextErrors.password.touched && fields.includes("password")) {
-    const passwordMessage = passwordValidator(password);
-    nextErrors.password.error = !!passwordMessage;
-    nextErrors.password.message = passwordMessage;
-    if (!!passwordMessage) isValid = false;
-  }
+  let nextErrors: SignUpFormDataError = {
+    email: {
+      error: !!emailMessage,
+      message: emailMessage,
+    },
+    password: {
+      error: !!passwordMessage,
+      message: passwordMessage,
+    },
+    confirmPassword: {
+      error: !!confirmPasswordMessage,
+      message: confirmPasswordMessage,
+    },
+  };
 
-  if (
-    nextErrors.confirmPassword.touched &&
-    fields.includes("confirmPassword")
-  ) {
-    const confirmPasswordMessage = confirmPasswordValidator(
-      password,
-      confirmPassword
-    );
-    nextErrors.confirmPassword.error = !!confirmPasswordMessage;
-    nextErrors.confirmPassword.message = confirmPasswordMessage;
-    if (!!confirmPasswordMessage) isValid = false;
-  }
+  const isValid =
+    !nextErrors.email.error &&
+    !nextErrors.password.error &&
+    !nextErrors.confirmPassword.error;
 
   return {
     isValid,
