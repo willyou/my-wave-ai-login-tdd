@@ -1,4 +1,4 @@
-import { ChangeEvent, FocusEvent } from "react";
+import css from "./SignUpForm.module.css";
 import { useForm } from "../hooks/useForm";
 import { AuthData } from "../types";
 import { FormInput } from "./FormInput";
@@ -73,19 +73,18 @@ export function SignUpForm(props: SignUpFormProps) {
             )}
           </button>
         </div>
-        <div className="error-wrap">
-          {touched.email && (
-            <div className="error"> {formError.email.message}</div>
-          )}
 
-          {touched.password && (
-            <div className="error"> {formError.password.message}</div>
-          )}
+        {touched.email && (
+          <div className={css.error}> {formError.email.message}</div>
+        )}
 
-          {touched.confirmPassword && (
-            <div className="error"> {formError.confirmPassword.message}</div>
-          )}
-        </div>
+        {touched.password && (
+          <div className={css.error}> {formError.password.message}</div>
+        )}
+
+        {touched.confirmPassword && (
+          <div className={css.error}> {formError.confirmPassword.message}</div>
+        )}
       </form>
     </div>
   );

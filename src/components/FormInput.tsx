@@ -1,3 +1,4 @@
+import css from "./FormInput.module.css";
 interface FormInputProps {
   name: string;
   type: string;
@@ -11,7 +12,7 @@ export function FormInput(props: FormInputProps) {
   return (
     <div>
       <input
-        className="input"
+        className={css.input}
         name={name}
         type={type}
         placeholder={placeholder}
