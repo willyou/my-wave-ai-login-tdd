@@ -15,26 +15,9 @@ interface SignUpFormProps {
 
 export function SignUpForm(props: SignUpFormProps) {
   const { loading, onSubmit } = props;
-  const [formData, setFormData] = useState<SignUpFormData>({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    focusOn: "",
-  });
 
-  const onUpdateField = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    const nextFormState = {
-      ...formData,
-      ...{
-        [name]: value,
-        focusOn: name,
-      },
-    };
-    setFormData(nextFormState);
-  };
-
-  const { formError, onBlurField, setFormError } = useFormValidator(formData);
+  const { formData, formError, onBlurField, onUpdateField } =
+    useFormValidator();
 
   return (
     <div>
@@ -56,7 +39,7 @@ export function SignUpForm(props: SignUpFormProps) {
               password: formData.password,
             });
           } else {
-            setFormError(errors);
+            // setFormError(errors);
           }
         }}
       >

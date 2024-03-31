@@ -2,7 +2,14 @@ import { useEffect, useState } from "react";
 import { validateForm } from "../utils/validators";
 import { SignUpFormData, SignUpFormDataError } from "../types";
 
-export function useFormValidator(formData: SignUpFormData) {
+export function useFormValidator() {
+  const [formData, setFormData] = useState<SignUpFormData>({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    focusOn: "",
+  });
+
   const [formError, setFormError] = useState<SignUpFormDataError>({
     email: {
       touched: false,
@@ -27,6 +34,18 @@ export function useFormValidator(formData: SignUpFormData) {
     setFormError(errors);
   }, [formData]);
 
+  const onUpdateField = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const nextFormState = {
+      ...formData,
+      ...{
+        [name]: value,
+        focusOn: name,
+      },
+    };
+    setFormData(nextFormState);
+  };
+
   const onBlurField = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.target;
 
@@ -49,5 +68,5 @@ export function useFormValidator(formData: SignUpFormData) {
     setFormError(errors);
   };
 
-  return { formError, onBlurField, setFormError };
+  return { formData, formError, onBlurField, onUpdateField, setFormError };
 }
